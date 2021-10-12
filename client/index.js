@@ -10,5 +10,10 @@ var app = new Vue({
             res => {
                 console.log(res.data);
             })
+    },
+    methods: {
+        boom() {
+            alert(this.test);
+        }
     }
 })
