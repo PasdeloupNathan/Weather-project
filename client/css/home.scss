@@ -1,0 +1,117 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0%;
+    margin: 0%;
+}
+
+body {
+    background: url(../assets/cool-background.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+header {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    #left,
+    #right {
+        background-color: rgba($color: #000000, $alpha: 0.4);
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 2px solid white;
+
+        a {
+            text-decoration: unset;
+            color: white;
+        }
+    }
+
+    #left {
+        width: 10%;
+    }
+
+    #right {
+        width: 90%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    #links {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a:hover {
+            opacity: 60%;
+            background: rgba($color: #000000, $alpha: 0.6);
+        }
+    }
+
+    #logo {
+        height: 100%;
+    }
+}
+
+
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 87%;
+
+}
+
+
+h1 {
+    color: white;
+}
+
+.btn-grad {
+    background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%)
+}
+
+.btn-grad {
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 10px #eee;
+    border-radius: 10px;
+    display: block;
+    width: 25%;
+    height: 10%;
+    margin-top: 20%;
+}
+
+.btn-grad:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
