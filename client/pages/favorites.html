@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/rhino-side-view-silhouette.png">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>My Weather</title>
+    <link rel="stylesheet" href="../css/favorites.css">
+</head>
+
+<body>
+    <header>
+        <div id="left"><img id="logo" src="../assets/rhino-side-view-silhouette.png"></div>
+        <div id="right">
+            <div id="links">
+                <a href="index.html">premier</a>
+                <a href="favorites.html">favoris</a>
+                <a href="https://www.google.com">troisieme</a>
+                <a href="https://www.google.com">quatrieme</a>
+            </div>
+        </div>
+    </header>
+    <main id="app">
+        <input type="text" v-model="search">
+        <button @click=boom>go</button>
+    </main>
+</body>
+<script src="../js/favorites.js"></script>
+
+</html>
