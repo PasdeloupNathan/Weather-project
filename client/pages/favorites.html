@@ -7,16 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/rhino-side-view-silhouette.png">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <title>My Weather</title>
     <link rel="stylesheet" href="../css/favorites.css">
 </head>
 
 <body>
     <header>
-        <div id="left"><img id="logo" src="../assets/rhino-side-view-silhouette.png"></div>
+        <a id="left" href="index.html"><img id="logo" src="../assets/rhino-side-view-silhouette.png"></a>
         <div id="right">
             <div id="links">
-                <a href="index.html">premier</a>
+                <a href="weather.html">meteo</a>
                 <a href="favorites.html">favoris</a>
                 <a href="https://www.google.com">troisieme</a>
                 <a href="https://www.google.com">quatrieme</a>
@@ -24,8 +25,32 @@
         </div>
     </header>
     <main id="app">
-        <input type="text" v-model="search">
-        <button @click=boom>go</button>
+        <section id="searchbox">
+            <h2>Selectionnez un favoris a ajouter</h2>
+            <div>
+                <input list="countries" id="countriesin" name="countries" v-model="search" />
+                <datalist id="countries">
+                    <option v-for="country in countries" :value="country">
+                </datalist>
+                <button @click="add">Ajouter !</button>
+            </div>
+        </section>
+        <section id="favoriteslist">
+            <h2>Liste de vos favoris</h2>
+            <div id="gridContainer">
+                <div class="grid" v-for="favoris in fake">
+                    <div class="trois" id="haut">
+                        <img src="../assets/remove.png">
+                    </div>
+                    <div class="trois">
+                        <p>{{favoris}}</p>
+                    </div>
+                    <div class="trois">
+                        <button>consulter la meteo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 </body>
 <script src="../js/favorites.js"></script>

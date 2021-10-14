@@ -38,3 +38,10 @@ app.get('/', (req, res) => {
         res.send(result);
     });
 })
+
+app.post("/favoris", (req, res) => {
+    // faire requete qui verifie si la ville existe puis renvoyer success si oui
+    res.send({
+        status: "success"
+    });
+})
