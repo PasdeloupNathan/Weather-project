@@ -8,6 +8,7 @@
     <link rel="icon" href="../assets/rhino-side-view-silhouette.png">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="../js/decode.js"></script>
     <title>Connexion</title>
     <link rel="stylesheet" href="../css/signin.css">
 </head>
@@ -28,13 +29,13 @@
         <div>
             <h1>Création de compte</h1>
             <label for="email">Adresse e-mail</label>
-            <input id="email" type="email" v-model="email">
-            <label for="username">Nom d'utilmisateur</label>
-            <input id="username" type="text" v-model="username">
+            <input id="email" type="email" v-model="email" required>
+            <label for="username">Nom d'utilisateur</label>
+            <input id="username" type="text" v-model="username" required>
             <label for="password">Mot de passe</label>
-            <input id="password" type=" password" v-model="password">
+            <input id="password" type="password" v-model="password" required>
             <label for="confirm">Confirmer mot de passe</label>
-            <input id="confirm" type=" password" v-model="confirm">
+            <input id="confirm" type="password" v-model="confirm" required>
             <button @click="sign">Creer un compte</button>
             <a href="login.html">Se connecter</a>
         </div>

@@ -46,7 +46,12 @@ var app = new Vue({
         var vm = this;
         //recherche  par défaut : paris
         vm.searchStr = "Paris";
-        //this.search();
+        if (jwt_decode(sessionStorage.getItem('user')).ID) {
+            axios.get(`http://localhost:5000/get-favorites/${jwt_decode(sessionStorage.getItem('user')).ID}`).then((req, response) => {
+                console.log(response);
+            })
+        }
+        this.search();
         //supression recherche pour simplifier recherche future
         vm.searchStr = "";
         const today = new Date();

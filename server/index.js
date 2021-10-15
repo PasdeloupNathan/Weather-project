@@ -4,20 +4,14 @@ const app = express();
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const port = 5000;
+const jwt = require('jsonwebtoken');
 require('dotenv').config()
-const secret = process.env.hash;
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
-const con = mysql.createConnection({
-    host: "localhost",
-    user: process.env.dbuser,
-    password: process.env.dbpassword,
-    database: "weather"
-});
 
 const corsOptions = {
     origin: '*',
@@ -27,6 +21,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 app.set('trust proxy', true);
+
+const con = mysql.createConnection({
+    host: "localhost",
+    user: process.env.dbuser,
+    password: process.env.dbpassword,
+    database: "weather"
+});
 
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`);
@@ -44,19 +45,28 @@ app.post('/login', (req, res) => {
         if (!result[0]) {
             res.send({
                 data: "cet utilisateur n'existe pas",
-                success: "fail"
+                status: "fail"
             });
         } else {
-            compare(result[0].password).then(passwd => {
+            compare(result[0].password, password).then(passwd => {
                 if (passwd === true) {
+                    const token = jwt.sign({
+                            username: result[0].name,
+                            password: result[0].password,
+                            email: result[0].email,
+                            ID: result[0].IDuser
+                        },
+                        process.env.hash
+                    );
                     res.send({
                         data: "connexion reussie",
-                        success: "success"
+                        token: token,
+                        status: "success"
                     });
                 } else {
                     res.send({
                         data: "mot de passe incorrect",
-                        success: "fail"
+                        status: "fail"
                     });
                 }
             })
@@ -67,12 +77,13 @@ app.post('/login', (req, res) => {
 
 app.get('/get-favorites/:id', (req, res) => {
     //Select all customers and return the result object:
-    con.query(`SELECT ville FROM favoriuserlink JOIN favoris ON favoris.IDfavori = favoriuserlink.IDfavori WHERE IDuser = ${req.params.id}; `, function (err, result) {
+    con.query(`SELECT ville FROM favoriuserlink JOIN favoris ON favoris.IDfavori = favoriuserlink.IDfavori WHERE IDuser = "${req.params.id}"; `, function (err, result) {
         if (err) throw err;
         if (!result[0]) {
             res.send("aucun utilisateur a afficher");
+        } else {
+            res.send("result");
         }
-        res.send(result);
     });
 })
 
@@ -87,7 +98,7 @@ app.post('/create-user', async (req, res) => {
             hash(password).then(passwd => {
                 con.query(`INSERT INTO user (name, password, email) VALUES ("${username}", "${passwd}", "${email}")`, function (err, result) {
                     res.send({
-                        success: "success"
+                        status: "success"
                     });
                 });
             })
@@ -95,7 +106,7 @@ app.post('/create-user', async (req, res) => {
         } else {
             res.send({
                 data: "utilisateur existe deja",
-                success: "error"
+                status: "error"
             });
         }
     });
@@ -175,9 +186,9 @@ async function hash(password) {
     });
 }
 
-async function compare(password) {
+async function compare(hash, password) {
     return await new Promise((resolve, reject) => {
-        bcrypt.compare(password, "$2b$10$kWoHStUFGAJUEc5OtxZkeuXTKQRwiWp6MbXBRm6wHqm/69O2pm.Cq", function (err, result) {
+        bcrypt.compare(password, hash, function (err, result) {
             if (err) reject(err)
             resolve(result);
         });

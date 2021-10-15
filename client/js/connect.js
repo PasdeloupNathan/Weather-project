@@ -14,10 +14,12 @@ var app = new Vue({
                 username: vm.username,
                 password: vm.password
             }).then(response => {
-                if (response.status === "success") {
-                    window.location.href = "weather.php";
+                if (response.data.status === "success") {
+                    // window.location.href = "weather.html";
+                    sessionStorage.setItem('user', response.data.token);
+                    console.log(sessionStorage.getItem('user'));
                 } else {
-                    alert(response.data.data)
+                    alert(response.data.data);
                 }
             });
         }
