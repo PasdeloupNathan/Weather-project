@@ -18,6 +18,7 @@ var app = new Vue({
         date: ""
     },
     mounted: function mounted() {
+        //map pour passer les jours de nombres en lettres français
         const dayMap = new Map([
             [1, "lundi"],
             [2, "mardi"],
@@ -27,6 +28,7 @@ var app = new Vue({
             [6, "samedis"],
             [7, "dimanche"]
         ]);
+        //pareil pour les mois
         const monthMap = new Map([
             [0, "janvier"],
             [1, "fevrier"],
@@ -42,26 +44,34 @@ var app = new Vue({
             [11, "décembre"],
         ]);
         var vm = this;
+        //recherche  par défaut : paris
         vm.searchStr = "Paris";
         this.search();
+        //supression recherche pour simplifier recherche future
         vm.searchStr = "";
         const today = new Date();
+        // jour en lettres
         vm.day = dayMap.get(today.getDay());
+        //date du jour
         vm.date = `${today.getUTCDate() + 1} ${monthMap.get(today.getUTCMonth())} ${today.getFullYear()}`
     },
     methods: {
         search() {
             var vm = this;
+            //si la recherche se lance sans caracteres
             if (vm.searchStr == "") {
                 alert('selectionnez une ville !');
             } else {
+                //si la recherche n'est pas un favoris donc non vérifiée
                 if (vm.favorites.indexOf(vm.searchStr) == -1) {
                     alert("merci de selectionner uniquement un de vos favoris");
                 } else {
+                    //pour ne pas lancer la recherche en double
                     if (vm.last !== vm.searchStr) {
                         vm.last = vm.searchStr;
                         axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${vm.searchStr}&units=metric&appid=4ba144aa4c9a4960b0d479e1dfd914a1&lang=fr`).then(
                             res => {
+                                //remplissage du front
                                 console.log(res.data);
                                 vm.weather.temp = parseInt(res.data.main.temp);
                                 vm.weather.description = res.data.weather[0].description;
@@ -80,4 +90,5 @@ var app = new Vue({
             }
         }
     }
+    //j'ai giga envie de dormir il est 2h et il y as trop d'accolades
 })
