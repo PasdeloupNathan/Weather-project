@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <title>Ma météo !</title>
     <link rel="stylesheet" href="../css/weather.css">
 </head>
 
@@ -16,46 +18,57 @@
             <div id="links">
                 <a href="weather.html">meteo</a>
                 <a href="favorites.html">favoris</a>
-                <a href="https://www.google.com">troisieme</a>
-                <a href="https://www.google.com">quatrieme</a>
+                <a href="https://www.google.com">gestion compte</a>
+                <a href="login.html">connexion</a>
             </div>
         </div>
     </header>
-    <main>
+    <main id="app">
         <section>
             <article id="left">
-                <div id="top">
-                    <h2 class="title">Tuesday</h2>
-                    <p class="text">15 Jan 2019</p>
-                    <p class="text last">Paris, FR</p>
+                <div id="gradient">
+                    <div id="top">
+                        <h2 class="title">{{day}}</h2>
+                        <p class="text">{{date}}</p>
+                        <p class="text last">{{weather.city}}, {{weather.country}}</p>
+                    </div>
+                    <div id="bottom">
+                        <img :src=weather.logo>
+                        <p id="temperature">{{weather.temp}}°C</p>
+                        <p class="text">{{weather.description}}</p>
+                    </div>
                 </div>
-                <div id="bottom">
-                    <h2>logo</h2>
-                    <p id="temperature">18°C</p>
-                    <p>Sunny</p>
-                </div>
+
             </article>
             <article id="right">
                 <div id="toptwo">
                     <span>
-                        <h3>PRECIPITATION</h3>
-                        <p>0 %</p>
+                        <h3>COUCHER DE SOLEIL</h3>
+                        <p>{{weather.sunset}}</p>
                     </span>
                     <span>
                         <h3>HUMIDITY</h3>
-                        <p>34 %</p>
+                        <p>{{weather.humidity}} %</p>
                     </span>
                     <span>
                         <h3>WIND</h3>
-                        <p>0 km/h</p>
+                        <p>{{weather.windspeed}} km/h</p>
                     </span>
                 </div>
                 <div id="bottomtwo">
+                    <h2>Séléctionnez un favoris à afficher</h2>
+                    <input list="favorites" id="ice-cream-choice" placeholder="Paris" v-on:blur="search"
+                        v-model="searchStr" />
+                    <datalist id="favorites">
+                        <option v-for="favorite in favorites" :value="favorite">
+                    </datalist>
+                    <a href="favorites.html">Ou ajoutez-en un !</a>
                 </div>
             </article>
         </section>
     </main>
 
 </body>
+<script src="../js/weather.js"></script>
 
 </html>
