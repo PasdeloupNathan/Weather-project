@@ -9,5 +9,6 @@ installer le projet puis :
 fichier .env : 
  - dbpassword={motDePasseBaseDeDonnees}
  - dbuser={NomDeCompteBaseDeDonnees}
+ - hash={motdepasse}
 
 api key : 1eb80f9e4553cc6575409ca4cf312be8

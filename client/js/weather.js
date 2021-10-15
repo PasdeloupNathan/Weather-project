@@ -46,7 +46,7 @@ var app = new Vue({
         var vm = this;
         //recherche  par défaut : paris
         vm.searchStr = "Paris";
-        this.search();
+        //this.search();
         //supression recherche pour simplifier recherche future
         vm.searchStr = "";
         const today = new Date();

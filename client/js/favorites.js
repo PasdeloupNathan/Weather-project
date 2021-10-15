@@ -33,17 +33,7 @@ var app = new Vue({
             const vm = this;
             //envois du nouveau favoris au backend
             //à recuperer : id user , id ville
-            axios.post("http://localhost:5000/favoris").then(
-                res => {
-                    const response = res.data;
-                    //gstion des erreurs
-                    if (response.status === "success") {
-                        vm.fake.push(vm.search);
-                    } else {
-                        //si erreur -> ville inexistante en france donc status !== 200
-                        alert("attention , cette ville n'existe pas en france");
-                    }
-                })
+            vm.fake.push(vm.search);
         }
     }
 })
