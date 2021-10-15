@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/rhino-side-view-silhouette.png">
-    <title>Accueil</title>
-    <link rel="stylesheet" href="../css/home.css">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 
 <body>
@@ -22,12 +22,16 @@
             </div>
         </div>
     </header>
-    <main>
-        <h1>
-            Bienvenue sur My Weather
-        </h1>
-        <button class="btn-grad" onclick="location.href = 'weather.html';">Acceder a ma meteo</button>
-        <script src="../js/home.js"></script>
+    <main id="app">
+        <div>
+            <h1>Connexion</h1>
+            <label for="username">Nom d'utilmisateur</label>
+            <input id="username" type="text">
+            <label for="password">Mot de passe</label>
+            <input id="password" type=" password">
+            <button>Se connecter</button>
+            <a href="signin.html">Créer un compte</a>
+        </div>
     </main>
 </body>
 
