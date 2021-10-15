@@ -31,15 +31,15 @@ app.set('trust proxy', true);
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`);
 })
-con.connect(function (err) {
+con.connect(function(err) {
     if (err) throw err;
 });
 
 app.post('/login', (req, res) => {
-    //Select all customers and return the result object:
+    //Login
     const username = req.body.username;
     const password = req.body.password;
-    con.query(`SELECT * FROM user WHERE name = '${username}'`, function (err, result) {
+    con.query(`SELECT * FROM user WHERE name = '${username}'`, function(err, result) {
         if (err) throw err;
         if (!result[0]) {
             res.send({
@@ -66,8 +66,8 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/get-favorites/:id', (req, res) => {
-    //Select all customers and return the result object:
-    con.query(`SELECT ville FROM favoriuserlink JOIN favoris ON favoris.IDfavori = favoriuserlink.IDfavori WHERE IDuser = ${req.params.id}; `, function (err, result) {
+    //Select all favorite and return the result object:
+    con.query(`SELECT ville FROM favoriuserlink JOIN favoris ON favoris.IDfavori = favoriuserlink.IDfavori WHERE IDuser = ${req.params.id}; `, function(err, result) {
         if (err) throw err;
         if (!result[0]) {
             res.send("aucun utilisateur a afficher");
@@ -76,16 +76,16 @@ app.get('/get-favorites/:id', (req, res) => {
     });
 })
 
-app.post('/create-user', async (req, res) => {
-    //Select all customers and return the result object:
+app.post('/create-user', async(req, res) => {
+    //Create user and return the result object:
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
-    con.query(`SELECT * FROM user WHERE name = '${username}'`, function (err, result) {
+    con.query(`SELECT * FROM user WHERE name = '${username}'`, function(err, result) {
         if (err) throw err;
         if (!result[0]) {
             hash(password).then(passwd => {
-                con.query(`INSERT INTO user (name, password, email) VALUES ("${username}", "${passwd}", "${email}")`, function (err, result) {
+                con.query(`INSERT INTO user (name, password, email) VALUES ("${username}", "${passwd}", "${email}")`, function(err, result) {
                     res.send({
                         success: "success"
                     });
@@ -102,16 +102,16 @@ app.post('/create-user', async (req, res) => {
 })
 
 app.post('/create-favorite', (req, res) => {
-    con.query(`SELECT ville FROM favoris WHERE ville = "Test"`, function (err, resp) {
+    con.query(`SELECT ville FROM favoris WHERE ville = "Test"`, function(err, resp) {
         if (!resp[0]) {
-            con.query(`INSERT INTO favoris (ville) VALUES ("Test")`, function (err, result) {
+            con.query(`INSERT INTO favoris (ville) VALUES ("Test")`, function(err, result) {
                 if (err) {
                     res.send("erreur lors de l'ajout");
                     throw err;
                 }
-                con.query(`SELECT * from favoriuserlink WHERE IDuser = 1 AND IDfavori = 10`, function (err, resp) {
+                con.query(`SELECT * from favoriuserlink WHERE IDuser = 1 AND IDfavori = 10`, function(err, resp) {
                     if (!resp[0]) {
-                        con.query(`INSERT INTO favoriuserlink (IDuser, IDfavori) VALUES (1, 10)`, function (err, response) {
+                        con.query(`INSERT INTO favoriuserlink (IDuser, IDfavori) VALUES (1, 10)`, function(err, response) {
                             res.send("success");
                         })
                     } else {
@@ -120,9 +120,9 @@ app.post('/create-favorite', (req, res) => {
                 });
             });
         } else {
-            con.query(`SELECT * from favoriuserlink WHERE IDuser = 1 AND IDfavori = 10`, function (err, resp) {
+            con.query(`SELECT * from favoriuserlink WHERE IDuser = 1 AND IDfavori = 10`, function(err, resp) {
                 if (!resp[0]) {
-                    con.query(`INSERT INTO favoriuserlink (IDuser, IDfavori) VALUES (1, 10)`, function (err, response) {
+                    con.query(`INSERT INTO favoriuserlink (IDuser, IDfavori) VALUES (1, 10)`, function(err, response) {
                         res.send("success");
                     })
                 } else {
@@ -135,15 +135,15 @@ app.post('/create-favorite', (req, res) => {
 })
 
 app.get('/delete-favorite/:id', (req, res) => {
-    //Select all customers and return the result object:
-    con.query(`SELECT * FROM favoris WHERE ville = '${req.params.id}'`, function (err, result) {
+    //Delete favorite and return the result object:
+    con.query(`SELECT * FROM favoris WHERE ville = '${req.params.id}'`, function(err, result) {
         if (err) throw err;
         if (!result[0]) {
             res.send("la ville n'exist pas n'existe pas");
         } else {
-            con.query(`SELECT * FROM favoriuserlink WHERE IDfavori = 9 AND IDuser = 1`, function (err, resp) {
+            con.query(`SELECT * FROM favoriuserlink WHERE IDfavori = 9 AND IDuser = 1`, function(err, resp) {
                 if (resp[0]) {
-                    con.query(`DELETE FROM favoriuserlink WHERE IDfavori = 9`, function (err, result) {
+                    con.query(`DELETE FROM favoriuserlink WHERE IDfavori = 9`, function(err, result) {
                         res.send("success");
                     });
                 } else {
@@ -156,10 +156,10 @@ app.get('/delete-favorite/:id', (req, res) => {
 
 app.post('/add-history', (req, res) => {
     //Select all customers and return the result object:
-    con.query(`INSERT INTO weather (temperature, ville ,humidité, icone, vent, description ) VALUES (18, "test", 97, "01d", 18, "test")`, function (err, result, fields) {
+    con.query(`INSERT INTO weather (temperature, ville ,humidité, icone, vent, description ) VALUES (18, "test", 97, "01d", 18, "test")`, function(err, result, fields) {
         if (err) throw err;
         result.insertId;
-        con.query(`INSERT INTO historique (data, date ,IDuser) VALUES ("${result.insertId}", NOW(), 1)`, function (err, result, fields) {
+        con.query(`INSERT INTO historique (data, date ,IDuser) VALUES ("${result.insertId}", NOW(), 1)`, function(err, result, fields) {
             if (err) throw err;
             res.send("success");
         });
@@ -168,7 +168,7 @@ app.post('/add-history', (req, res) => {
 
 async function hash(password) {
     return await new Promise((resolve, reject) => {
-        bcrypt.hash(password, 10, function (err, hash) {
+        bcrypt.hash(password, 10, function(err, hash) {
             if (err) reject(err)
             resolve(hash)
         })
@@ -177,7 +177,7 @@ async function hash(password) {
 
 async function compare(password) {
     return await new Promise((resolve, reject) => {
-        bcrypt.compare(password, "$2b$10$kWoHStUFGAJUEc5OtxZkeuXTKQRwiWp6MbXBRm6wHqm/69O2pm.Cq", function (err, result) {
+        bcrypt.compare(password, "$2b$10$kWoHStUFGAJUEc5OtxZkeuXTKQRwiWp6MbXBRm6wHqm/69O2pm.Cq", function(err, result) {
             if (err) reject(err)
             resolve(result);
         });
